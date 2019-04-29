@@ -1,0 +1,69 @@
+**********SQL Code for Planned Spend file *************
+
+
+CREATE TABLE digitalAllocated (
+Business_vs_Resi varchar(20) NOT NULL,
+Custom_Quarter VARCHAR,
+Custom_Week VARCHAR,
+Division varchar(30) NOT NULL,
+Region varchar(30) NOT NULL,
+Market varchar(35) NOT NULL,
+DMA_Code integer NOT NULL,
+Media(30) varchar NOT NULL,
+Media_Type varchar(30) NOT NULL,
+Plan_Name varchar(70) NOT NULL,
+Input_Product_Code varchar NOT NULL,
+Input_Client_Code varchar,
+Message_Type varchar(30),
+Vendor varchar(70),
+Demo varchar(30),
+Vehicle varchar(75),
+Allocated_Planned_Net_Cost REAL,
+Allocated_Planned_GM_GRPs REAL,
+Allocated_Planned_Hispanic_GRPs REAL,
+Custom_Month VARCHAR
+);
+
+
+
+CREATE VIEW TotalSpend
+AS
+SELECT * FROM digitalallocated
+UNION
+SELECT * FROM otherallocated;
+
+CREATE VIEW totalspend1012
+AS
+(SELECT custom_quarter,
+custom_month, 
+business_vs_resi, 
+division, 
+region, 
+market, 
+dma_code, 
+media,
+media_type, 
+input_product_code, 
+plan_name,
+sum(allocated_planned_net_cost) as Sum_of_Allocated_Planned_Net_Cost,
+custom_week
+FROM TotalSpend_927
+GROUP BY 
+custom_quarter,
+custom_month, 
+business_vs_resi, 
+division, 
+region, 
+market, 
+dma_code, 
+media,
+media_type, 
+input_product_code,
+plan_name,
+custom_week
+ORDER BY
+custom_week);
+
+*********PYTHON CODE FOR ADD QUARTER, YEAR********
+
+see this folder C:\Users\bonma1\Documents\Comcast Analytics\MMM\Data Collection\Data Automation
